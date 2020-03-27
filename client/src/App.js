@@ -18,7 +18,7 @@ if (localStorage.token) {
 }
 
 const App = () => {
-  // adding [] makes useEffect only run once
+  // adding [] makes useEffect only run once on load
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
