@@ -26,7 +26,7 @@ const AddExperience = ({ addExperience, history }) => {
     <Fragment>
       <h1 className='large text-primary'>Add An Experience</h1>
       <p className='lead'>
-        <i className='fas fa-code-branch'></i> Add any developer/programming
+        <i className='fas fa-code-branch' /> Add any developer/programming
         positions that you have had in the past
       </p>
       <small>* = required field</small>
@@ -82,7 +82,7 @@ const AddExperience = ({ addExperience, history }) => {
               name='current'
               checked={current}
               value={current}
-              onChange={e => {
+              onChange={() => {
                 setFormData({ ...formData, current: !current })
                 toggleDisabled(!toDateDisabled)
               }}
@@ -108,7 +108,7 @@ const AddExperience = ({ addExperience, history }) => {
             placeholder='Job Description'
             value={description}
             onChange={e => onChange(e)}
-          ></textarea>
+          />
         </div>
         <input type='submit' className='btn btn-primary my-1' />
         <Link className='btn btn-light my-1' to='/dashboard'>
@@ -123,4 +123,4 @@ AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired
 }
 
-export default connect(null, { addExperience })(AddExperience)
+export default connect(null, { addExperience })(withRouter(AddExperience))
