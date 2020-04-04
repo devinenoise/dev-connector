@@ -19,13 +19,13 @@ const ProfileEducation = ({
       <strong>Field Of Study: </strong> {fieldofstudy}
     </p>
     <p>
-    <strong>Description: </strong> {description}
+      <strong>Description: </strong> {description}
     </p>
   </div>
 )
 
 ProfileEducation.propTypes = {
-  education: PropTypes.array.isRequired
+  education: PropTypes.object.isRequired
 }
 
 export default ProfileEducation
