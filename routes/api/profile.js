@@ -4,6 +4,7 @@ const config = require('config')
 const router = express.Router()
 const auth = require('../../middleware/auth')
 const { check, validationResult } = require('express-validator')
+// bring in normalize to give us a proper url, regardless of what user entered
 const normalize = require('normalize-url')
 
 const Profile = require('../../models/Profile')
@@ -16,7 +17,7 @@ const Post = require('../../models/Post')
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id,
+      user: req.user.id
     })
 
     if (!profile) {
@@ -40,8 +41,8 @@ router.post(
     auth,
     [
       check('status', 'Status is required').not().isEmpty(),
-      check('skills', 'Skills is required').not().isEmpty(),
-    ],
+      check('skills', 'Skills is required').not().isEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req)
@@ -60,7 +61,7 @@ router.post(
       twitter,
       instagram,
       linkedin,
-      facebook,
+      facebook
     } = req.body
 
     const profileFields = {
@@ -71,9 +72,9 @@ router.post(
       bio,
       skills: Array.isArray(skills)
         ? skills
-        : skills.split(',').map((skill) => '' + skill.trim()),
+        : skills.split(',').map(skill => ' ' + skill.trim()),
       status,
-      githubusername,
+      githubusername
     }
 
     // Build social object and add to profileFields
@@ -119,7 +120,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id,
+      user: req.params.user_id
     }).populate('user', ['name', 'avatar'])
 
     if (!profile) return res.status(400).json({ msg: 'Profile not found' })
@@ -166,8 +167,8 @@ router.put(
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
-        .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
-    ],
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req)
@@ -182,7 +183,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     } = req.body
 
     const newExp = {
@@ -192,7 +193,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     }
 
     try {
@@ -219,7 +220,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     const foundProfile = await Profile.findOne({ user: req.user.id })
 
     foundProfile.experience = foundProfile.experience.filter(
-      (exp) => exp._id.toString() !== req.params.exp_id
+      exp => exp._id.toString() !== req.params.exp_id
     )
 
     await foundProfile.save()
@@ -244,8 +245,8 @@ router.put(
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
-        .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
-    ],
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req)
@@ -260,7 +261,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     } = req.body
 
     const newEdu = {
@@ -270,7 +271,7 @@ router.put(
       from,
       to,
       current,
-      description,
+      description
     }
 
     try {
@@ -296,7 +297,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
     const foundProfile = await Profile.findOne({ user: req.user.id })
     foundProfile.education = foundProfile.education.filter(
-      (edu) => edu._id.toString() !== req.params.edu_id
+      edu => edu._id.toString() !== req.params.edu_id
     )
     await foundProfile.save()
     return res.status(200).json(foundProfile)
@@ -316,7 +317,7 @@ router.get('/github/:username', async (req, res) => {
     )
     const headers = {
       'user-agent': 'node.js',
-      Authorization: `token ${config.get('githubToken')}`,
+      Authorization: `token ${config.get('githubToken')}`
     }
 
     const gitHubResponse = await axios.get(uri, { headers })

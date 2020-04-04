@@ -6,9 +6,9 @@ const auth = require('../../middleware/auth')
 const Post = require('../../models/Post')
 const User = require('../../models/User')
 
-//@route   POST api/posts
-//@desc    Create a post
-//@access  Private
+// @route    POST api/posts
+// @desc     Create a post
+// @access   Private
 router.post(
   '/',
   [auth, [check('text', 'Text is required').not().isEmpty()]],
@@ -25,7 +25,7 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.user.id,
+        user: req.user.id
       })
 
       const post = await newPost.save()
@@ -52,22 +52,21 @@ router.get('/', auth, async (req, res) => {
 })
 
 // @route    GET api/posts/:id
-// @desc     Get a post by ID
+// @desc     Get post by ID
 // @access   Private
 router.get('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
 
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' })
+    // Check for ObjectId format and post
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+      return res.status(404).json({ msg: 'Post not found' })
     }
 
     res.json(post)
   } catch (err) {
     console.error(err.message)
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ message: 'Post not found' })
-    }
+
     res.status(500).send('Server Error')
   }
 })
@@ -78,18 +77,15 @@ router.get('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-    res.json(post)
 
     // Check for ObjectId format and post
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' })
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+      return res.status(404).json({ msg: 'Post not found' })
     }
 
     // Check user
     if (post.user.toString() !== req.user.id) {
-      return res
-        .status(401)
-        .json({ message: 'User not authorized to delete this post' })
+      return res.status(401).json({ msg: 'User not authorized' })
     }
 
     await post.remove()
@@ -97,9 +93,7 @@ router.delete('/:id', auth, async (req, res) => {
     res.json({ msg: 'Post removed' })
   } catch (err) {
     console.error(err.message)
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ message: 'Post not found' })
-    }
+
     res.status(500).send('Server Error')
   }
 })
@@ -113,8 +107,7 @@ router.put('/like/:id', auth, async (req, res) => {
 
     // Check if the post has already been liked
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
+      post.likes.filter(like => like.user.toString() === req.user.id).length > 0
     ) {
       return res.status(400).json({ msg: 'Post already liked' })
     }
@@ -139,15 +132,15 @@ router.put('/unlike/:id', auth, async (req, res) => {
 
     // Check if the post has already been liked
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id)
-        .length === 0
+      post.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
     ) {
       return res.status(400).json({ msg: 'Post has not yet been liked' })
     }
 
     // Get remove index
     const removeIndex = post.likes
-      .map((like) => like.user.toString())
+      .map(like => like.user.toString())
       .indexOf(req.user.id)
 
     post.likes.splice(removeIndex, 1)
@@ -161,9 +154,9 @@ router.put('/unlike/:id', auth, async (req, res) => {
   }
 })
 
-//@route   POST api/posts/comment/:id
-//@desc    Comment on a post
-//@access  Private
+// @route    POST api/posts/comment/:id
+// @desc     Comment on a post
+// @access   Private
 router.post(
   '/comment/:id',
   [auth, [check('text', 'Text is required').not().isEmpty()]],
@@ -181,7 +174,7 @@ router.post(
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
-        user: req.user.id,
+        user: req.user.id
       }
 
       post.comments.unshift(newComment)
@@ -205,7 +198,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     // Pull out comment
     const comment = post.comments.find(
-      (comment) => comment.id === req.params.comment_id
+      comment => comment.id === req.params.comment_id
     )
     // Make sure comment exists
     if (!comment) {
@@ -216,7 +209,6 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' })
     }
 
-    // Get remove index
     post.comments = post.comments.filter(
       ({ id }) => id !== req.params.comment_id
     )
