@@ -15,7 +15,7 @@ const AddEducation = ({ addEducation, history }) => {
     description: ''
   })
 
-  // const [toDateDisabled, toggleDisabled] = useState(false)
+  
 
   const {
     school,
