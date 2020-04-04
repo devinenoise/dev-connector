@@ -22,8 +22,6 @@ export const getCurrentProfile = () => async dispatch => {
       payload: res.data,
     })
   } catch (err) {
-    // dispatch({ type: CLEAR_PROFILE })
-
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -33,7 +31,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all profiles
 export const getProfiles = () => async dispatch => {
-  // dispatch({ type: CLEAR_PROFILE })
+  dispatch({ type: CLEAR_PROFILE })
 
   try {
     const res = await axios.get('/api/profile')
@@ -50,7 +48,7 @@ export const getProfiles = () => async dispatch => {
   }
 }
 
-// Get profiles by ID
+// Get profile by ID
 export const getProfileById = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/profile/user/${userId}`)
@@ -235,7 +233,7 @@ export const deleteAccount = () => async dispatch => {
       dispatch({ type: CLEAR_PROFILE })
       dispatch({ type: ACCOUNT_DELETED })
 
-      dispatch(setAlert('Your account has been permanently deleted'))
+      dispatch(setAlert('Your account has been permanantly deleted'))
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
