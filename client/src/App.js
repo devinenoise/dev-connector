@@ -7,12 +7,14 @@ import Alert from './components/layout/Alert'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import CreateProfile from './components/profile-form/CreateProfile'
+import Profile from './components/profile/Profile'
 import Dashboard from './components/dashboard/Dashboard'
 import EditProfile from './components/profile-form/EditProfile'
 import AddExperience from './components/profile-form/AddExperience'
 import AddEducation from './components/profile-form/AddEducation'
 import Profiles from './components/profiles/Profiles'
-import './App.css'
+import Posts from './components/posts/Posts'
+import Post from './components/post/Post'
 
 // Redux
 import { Provider } from 'react-redux'
@@ -20,13 +22,13 @@ import store from './store'
 import { loadUser } from './actions/auth'
 import setAuthToken from './utils/setAuthToken'
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token)
-}
+import './App.css'
+
 
 const App = () => {
   // adding [] makes useEffect only run once on load
   useEffect(() => {
+    setAuthToken(localStorage.token)
     store.dispatch(loadUser())
   }, [])
 
@@ -42,6 +44,7 @@ const App = () => {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/profiles' component={Profiles} />
+              <Route exact path='/profile/:id' component={Profile} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute
                 exact
@@ -63,6 +66,8 @@ const App = () => {
                 path='/add-education'
                 component={AddEducation}
               />
+              <PrivateRoute exact path='/posts' component={Posts} />
+              <PrivateRoute exact path='/posts/:id' component={Post} />
             </Switch>
           </div>
         </Fragment>
