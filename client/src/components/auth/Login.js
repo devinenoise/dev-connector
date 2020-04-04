@@ -7,7 +7,7 @@ import { login } from '../../actions/auth'
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    password: ''
   })
 
   const { email, password } = formData
@@ -36,7 +36,7 @@ const Login = ({ login, isAuthenticated }) => {
             type='email'
             placeholder='Email Address'
             name='email'
-            value={email}
+            value={email.toLowerCase()}
             onChange={e => onChange(e)}
             required
           />
@@ -62,11 +62,11 @@ const Login = ({ login, isAuthenticated }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  isAuthenticated: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { login })(Login)
