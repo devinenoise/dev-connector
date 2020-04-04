@@ -37,7 +37,7 @@ const Login = ({ login, isAuthenticated }) => {
             type='email'
             placeholder='Email Address'
             name='email'
-            value={email}
+            value={email.toLowerCase()}
             onChange={e => onChange(e)}
             required
           />

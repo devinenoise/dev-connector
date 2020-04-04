@@ -9,7 +9,7 @@ const CommentItem = ({
   postId,
   comment: { _id, text, name, avatar, user, date },
   auth,
-  deleteComment
+  deleteComment,
 }) => (
   <div className='post bg-white p-1 my-1'>
     <div>
@@ -40,11 +40,11 @@ CommentItem.propTypes = {
   postId: PropTypes.string.isRequired,
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deleteComment: PropTypes.func.isRequired
+  deleteComment: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { deleteComment })(CommentItem)

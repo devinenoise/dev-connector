@@ -5,8 +5,8 @@ const ProfileAbout = ({
   profile: {
     bio,
     skills,
-    user: { name }
-  }
+    user: { name },
+  },
 }) => {
   return (
     <div className='profile-about bg-light p-2'>
@@ -22,7 +22,7 @@ const ProfileAbout = ({
       <div className='skills'>
         {skills.map((skill, index) => (
           <div key={index} className='p-1'>
-            <i className='fas fa-check'></i>
+            <i className='fas fa-check text-primary'></i>
             {skill}
           </div>
         ))}
@@ -32,7 +32,7 @@ const ProfileAbout = ({
 }
 
 ProfileAbout.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 }
 
 export default ProfileAbout
