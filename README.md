@@ -14,7 +14,7 @@ Kyle Devine
 
 ### Dependencies
 
-Axiox, BCrpypt, Express, Gravatar, JSONwebtoken, Mongoose, Normalize.
+Axios, BCrpypt, Express, Gravatar, JSONwebtoken, Mongoose, Normalize.
 
 ### Version
 
