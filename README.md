@@ -4,9 +4,9 @@ A social network for software developers.
 
 Deployed Site - https://rocky-lake-62245.herokuapp.com/
 
-![Screenshot1](https://github.com/devinenoise/dev-connector/blob/main/screenshot 1.png)
-![Screenshot2](https://github.com/devinenoise/dev-connector/blob/main/screenshot 2.png)
-![Screenshot3](https://github.com/devinenoise/dev-connector/blob/main/screenshot 3.png)
+![Screenshot1](https://github.com/devinenoise/dev-connector/blob/master/screenshot%201.png)
+![Screenshot2](https://github.com/devinenoise/dev-connector/blob/master/screenshot%202.png)
+![Screenshot3](https://github.com/devinenoise/dev-connector/blob/master/screenshot%203.png)
 
 
 ## App Info
